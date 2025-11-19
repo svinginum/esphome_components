@@ -1,6 +1,6 @@
 ## ESPHome custom components
 
-My creation of custom components fro ESP home.
+Forked from https://github.com/nic6911
 
 ### Recent updates
 04-07-2022 - Wavin v2 has issues with ESPhome 2022.6. It fails writing a number back to the Wavin device. Added yaml to basic.yaml to ensure it uses the modbus and modbus_controller component from ESPhome 2022.5.1. Please to a clean and update your ESPhome device to make it work with ESPhome 2022.6.
