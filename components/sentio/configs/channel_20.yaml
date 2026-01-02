@@ -1,0 +1,122 @@
+select:
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} termostat lås"
+    id: thermostat_lock_channel_20
+    address: 2020
+    force_new_range: true
+    use_write_multiple: true
+    value_type: U_WORD
+    optionsmap:
+      "Locked" : 8
+      "Hotel" : 16
+      "Unlocked" : 32
+      
+#########################
+#### INPUT REGISTER  ####
+#########################
+sensor:
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} mode"
+    id: mode_channel_20
+    register_type: read
+    address: 2002
+      
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} temperatur"
+    id: temperatur_channel_20
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    device_class: temperature
+    register_type: read
+    address: 2004
+    filters:
+      - multiply: 0.01
+      
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} luftfugtighed"
+    id: luftfugtighed_channel_20
+    unit_of_measurement: '%'
+    accuracy_decimals: 1
+    device_class: humidity
+    register_type: read
+    address: 2006
+    filters:
+      - multiply: 0.01 
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} dugpunkt"
+    id: dugpunkt_channel_20
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    device_class: humidity
+    register_type: read
+    address: 2007
+    filters:
+      - multiply: 0.01  
+      
+#########################
+### SETPOINT REGISTER  ##
+#########################
+number:
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} temperatur setpunkt"
+    id: temperatur_setpunkt_channel_20
+    min_value: 10.0
+    max_value: 30.0
+    step: 0.5
+    address: 2019
+    force_new_range: true
+    use_write_multiple: true 
+    multiply: 100  
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} ferie temperatur setpunkt"
+    id: ferie_temperatur_setpunkt_channel_20
+    min_value: 10.0
+    max_value: 30.0
+    step: 0.5
+    address: 2022
+    force_new_range: true
+    use_write_multiple: true 
+    multiply: 100
+
+#########################
+#### INPUT REGISTER  ####
+#########################
+binary_sensor:
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Fejl ${channel_20}"
+    id: sentio_warning_channel_20
+    register_type: read
+    address: 2001
+    bitmask: 1      
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Lav batteri ${channel_20}"
+    id: sentio_battery_low_channel_20
+    register_type: read
+    address: 2003
+    bitmask: 1 
+
+#########################
+#### CLIMATE ENTITY   ###
+#########################
+climate:
+  - platform: sentio
+    name: ${channel_20}
+    current_temp_sensor_id: temperatur_channel_20
+    target_temp_sensor_id: temperatur_setpunkt_channel_20
+    mode_select_id: mode_channel_20
+
