@@ -34,64 +34,72 @@ select:
 #### SYSTEM TEMPERATURE SENSORS (T2-T3) ####
 #########################
 sensor:
-
-  # Pump State - Input Register 07304 (Read-only, 1=IDLE, 2=ON)
-  # Type: val_u1 (1 byte stored in 16-bit register)
+  # Pump State - Input Register 07304
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "Sentio Pump State"
     id: sentio_pump_state
-    register_type: holding
+    register_type: read  # Correct for Input Registers
     address: 7304
-    force_new_range: true
-    force_new_range: true
+    value_type: U_WORD   # Must specify this
+    # No filters needed - returns 1=IDLE, 2=ON
 
-  # T2 - Measured inlet temperature (Flow temperature for heating circuit 1)
-  # Input Register 07305 - Measured temperature of the inlet heating/cooling water
+  # Measured inlet temperature - Input Register 07305
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "Sentio Flow Temperature"
     id: sentio_t2_flow_temp
-    unit_of_measurement: °C
-    accuracy_decimals: 1
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
     device_class: temperature
+    state_class: measurement
     register_type: read
     address: 7305
-    force_new_range: true
-    value_type: U_WORD
+    value_type: S_WORD  # Use S_WORD for signed temperatures
+    filters:
+      - multiply: 0.01  # val_d2_fp100 format
+
+  # Desired inlet temperature - Input Register 07306
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Desired Flow Temperature"
+    id: sentio_desired_inlet_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: read
+    address: 7306
+    value_type: S_WORD
     filters:
       - multiply: 0.01
 
-  # T3 - Measured return temperature
-  # Input Register 07307 - Measured return temperature
+  # Measured return temperature - Input Register 07307
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "Sentio Return Temperature"
-    id: sentio_t3_return_temp
-    unit_of_measurement: °C
-    accuracy_decimals: 1
+    id: sentio_return_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
     device_class: temperature
+    state_class: measurement
     register_type: read
     address: 7307
-    force_new_range: true
-    value_type: U_WORD
+    value_type: S_WORD
     filters:
       - multiply: 0.01
 
-  # Desired inlet temperature (Setpoint - Read only)
-  # Input Register 07306 - Desired temperature of the inlet heating/cooling water
-  # The value which the ITC regulator wants to meet
+  # Main supplier temperature - Input Register 07308
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Wanted Flow Temperature"
-    id: sentio_desired_inlet_temp
-    unit_of_measurement: °C
-    accuracy_decimals: 1
+    name: "Sentio Main Supplier Temperature"
+    id: sentio_main_supplier_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
     device_class: temperature
+    state_class: measurement
     register_type: read
-    address: 7306
-    force_new_range: true
-    value_type: U_WORD
+    address: 7308
+    value_type: S_WORD
     filters:
       - multiply: 0.01
-
