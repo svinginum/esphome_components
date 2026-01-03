@@ -2,17 +2,28 @@ sensor:
 #########################
 #### SYSTEM TEMPERATURE SENSORS (T2-T3) ####
 #########################
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Pump State"
+    id: sentio_pump_state
+    register_type: input  # Correct for Input Registers
+    address: 7304
+    value_type: U_WORD   # Must specify this
+    # No filters needed - returns 1=IDLE, 2=ON
+
+    
   # Measured inlet temperature - Input Register 07705 (HCC1) per PDF
   # Channel pattern: 00104 -> 104, so 07705 -> 7705
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio T2 - ITC Inlet"
+    name: "T2 - ITC Inlet"
     id: sentio_t2_itc_inlet
     unit_of_measurement: "°C"
     accuracy_decimals: 2
     device_class: temperature
     register_type: read
-    address: 7705  # 07705 per PDF (following channel pattern: 00104->104, so 07705->7705)
+    address: 7305  # 07705 per PDF (following channel pattern: 00104->104, so 07705->7705)
     filters:
       - multiply: 0.01  # val_d2_fp100 format
 
@@ -20,7 +31,7 @@ sensor:
   # Channel pattern: 00104 -> 104, so 07706 -> 7706
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Desired Flow Temperature"
+    name: "Desired Flow Temperature"
     id: sentio_desired_inlet_temp
     unit_of_measurement: "°C"
     accuracy_decimals: 2
@@ -40,7 +51,21 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     register_type: read
-    address: 7707  # 07707 per PDF (following channel pattern)
+    address: 7306  # 07707 per PDF (following channel pattern)
+    filters:
+      - multiply: 0.01
+  # Measured return temperature - Input Register 07307
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Return Temperature"
+    id: sentio_return_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: input
+    address: 7307
+    value_type: S_WORD
     filters:
       - multiply: 0.01
 
@@ -48,34 +73,17 @@ sensor:
   # Channel pattern: 00104 -> 104, so 07708 -> 7708
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Main Supplier Temperature"
+    name: "Sentio Main Supplier Required Temperature"
     id: sentio_main_supplier_temp
     unit_of_measurement: "°C"
     accuracy_decimals: 2
     device_class: temperature
     register_type: read
-    address: 7708  # 07708 per PDF (following channel pattern)
+    address: 7308  # 07708 per PDF (following channel pattern)
     filters:
       - multiply: 0.01
 
-binary_sensor:
-  # Location aggregated warning - Input Register 00001 per PDF
-  # Channel pattern: 00101 -> 101, so 00001 -> 1 (but trying 0 for 0-based addressing)
-  - platform: modbus_controller
-    modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Aggregated Warning"
-    id: sentio_aggregated_warning
-    register_type: read
-    address: 0  # Trying 0-based: 00001 - 1 = 0. If this doesn't work, try 1
-    bitmask: 1
 
-  # Location aggregated error - Input Register 00002 per PDF
-  # Channel pattern: 00102 -> 102, so 00002 -> 2 (but trying 1 for 0-based addressing)
-  - platform: modbus_controller
-    modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Aggregated Error"
-    id: sentio_aggregated_error
-    register_type: read
-    address: 1  # Trying 0-based: 00002 - 1 = 1. If this doesn't work, try 2
-    bitmask: 1
+
+
 
