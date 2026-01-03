@@ -9,12 +9,8 @@ sensor:
     id: sentio_pump_state
     register_type: read  # Correct for Input Registers
     address: 7304
-    value_type: U_WORD
-    filters:
-      - lambda: |-
-          if (x == 2) return std::string("On");
-          if (x == 1) return std::string("Off");
-          return std::string("Unknown");
+    value_type: U_WORD   
+    # No filters needed - returns 1=IDLE, 2=ON
 
 
   # Measured inlet temperature - Input Register 07705 (HCC1) per PDF
