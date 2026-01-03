@@ -30,3 +30,77 @@ select:
       "OFF" : 0
       "ON" : 1
 
+
+sensor:
+#########################
+#### SYSTEM TEMPERATURE SENSORS (T2-T3) ####
+#########################
+  # Pump State - Input Register 07304
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Pump State"
+    id: sentio_pump_state
+    register_type: read
+    address: 7304
+    value_type: U_WORD   # Must specify this
+    # No filters needed - returns 1=IDLE, 2=ON
+
+  # Measured inlet temperature - Input Register 07305
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Flow Temperature"
+    id: sentio_t2_flow_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: read
+    address: 7305
+    value_type: S_WORD  # Use S_WORD for signed temperatures
+    filters:
+      - multiply: 0.01  # val_d2_fp100 format
+
+  # Desired inlet temperature - Input Register 07306
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Desired Flow Temperature"
+    id: sentio_desired_inlet_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: read
+    address: 7306
+    value_type: S_WORD
+    filters:
+      - multiply: 0.01
+
+  # Measured return temperature - Input Register 07307
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Return Temperature"
+    id: sentio_return_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: read
+    address: 7307
+    value_type: S_WORD
+    filters:
+      - multiply: 0.01
+
+  # Main supplier temperature - Input Register 07308
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Sentio Main Supplier Temperature"
+    id: sentio_main_supplier_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: read
+    address: 7308
+    value_type: S_WORD
+    filters:
+      - multiply: 0.01
