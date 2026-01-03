@@ -63,7 +63,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     state_class: measurement
-    register_type: input
+    register_type: read
     address: 7307
     value_type: S_WORD
     filters:
