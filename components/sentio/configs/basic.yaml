@@ -39,7 +39,7 @@ sensor:
     modbus_controller_id: sentio_modbus_controller
     name: "Sentio Pump State"
     id: sentio_pump_state
-    register_type: read  # Correct for Input Registers
+    register_type: input  # Correct for Input Registers
     address: 7304
     value_type: U_WORD   # Must specify this
     # No filters needed - returns 1=IDLE, 2=ON
@@ -53,7 +53,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     state_class: measurement
-    register_type: read
+    register_type: input
     address: 7305
     value_type: S_WORD  # Use S_WORD for signed temperatures
     filters:
@@ -68,7 +68,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     state_class: measurement
-    register_type: read
+    register_type: input
     address: 7306
     value_type: S_WORD
     filters:
@@ -83,7 +83,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     state_class: measurement
-    register_type: read
+    register_type: input
     address: 7307
     value_type: S_WORD
     filters:
@@ -98,7 +98,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     state_class: measurement
-    register_type: read
+    register_type: input
     address: 7308
     value_type: S_WORD
     filters:
