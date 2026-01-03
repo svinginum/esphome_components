@@ -5,12 +5,16 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Pump State"
+    name: "Flow - Pump State"
     id: sentio_pump_state
     register_type: read  # Correct for Input Registers
     address: 7304
-    value_type: U_WORD   
-    # No filters needed - returns 1=IDLE, 2=ON
+    value_type: U_WORD
+    filters:
+      - lambda: |-
+          if (x == 2) return std::string("On");
+          if (x == 1) return std::string("Off");
+          return std::string("Unknown");
 
 
   # Measured inlet temperature - Input Register 07705 (HCC1) per PDF
@@ -31,7 +35,7 @@ sensor:
   # Channel pattern: 00104 -> 104, so 07706 -> 7706
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Desired Flow Temperature"
+    name: "Flow - Desired Temperature"
     id: sentio_desired_inlet_temp
     unit_of_measurement: "°C"
     accuracy_decimals: 2
@@ -46,7 +50,7 @@ sensor:
   # Measured return temperature - Input Register 07307
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Return Temperature"
+    name: "T3 - Return Temperature"
     id: sentio_return_temp
     unit_of_measurement: "°C"
     accuracy_decimals: 2
@@ -61,7 +65,7 @@ sensor:
   # Channel pattern: 00104 -> 104, so 07708 -> 7708
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Main Supplier Required Temperature"
+    name: "Flow - Supplier Required Temperature"
     id: sentio_main_supplier_temp
     unit_of_measurement: "°C"
     accuracy_decimals: 2
@@ -70,6 +74,181 @@ sensor:
     address: 7308  # 07708 per PDF (following channel pattern)
     filters:
       - multiply: 0.01
+
+#########################
+#### OUTDOOR TEMPERATURE SENSORS (Outdoor 1) ####
+#########################
+  # Outdoor Air Temperature - Input Register 03301 per PDF
+  # Channel pattern: 00104 -> 104, so 03301 -> 3301
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Outdoor - Air Temperature"
+    id: outdoor_air_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    register_type: read
+    address: 3301  # 03301 per PDF (following channel pattern: 00104->104, so 03301->3301)
+    filters:
+      - multiply: 0.01
+
+  # Outdoor Air Temperature Filtered - Input Register 03302 per PDF
+  # Used in Heat curve calculations, H/C blocking
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Outdoor - Air Temperature Filtered"
+    id: outdoor_air_temp_filtered
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    register_type: read
+    address: 3302  # 03302 per PDF
+    filters:
+      - multiply: 0.01
+
+  # Outdoor Air Temperature Geometrical - Input Register 03303 per PDF
+  # Not yet used in the code (pending issue)
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "Outdoor - Air Temperature Geometrical"
+    id: outdoor_air_temp_geometrical
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    register_type: read
+    address: 3303  # 03303 per PDF
+    filters:
+      - multiply: 0.01
+
+#########################
+#### ITC1 CONFIGURATION (Holding Registers - R/W) ####
+#########################
+number:
+  # ITC1 Regulator - P value (Proportional gain) - Holding Register 07317 per PDF
+  # val_d2_fp10 format - multiply by 0.1
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Regulator P Value"
+    id: itc1_regulator_p_value
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.1
+    address: 7317  # 07317 per PDF (following channel pattern)
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 10  # val_d2_fp10: multiply by 10 when writing, divide by 10 when reading
+
+  # ITC1 Regulator - I value (Integrating time) - Holding Register 07318 per PDF
+  # val_u2 format - unsigned, no decimal
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Regulator I Value"
+    id: itc1_regulator_i_value
+    min_value: 0
+    max_value: 65535
+    step: 1
+    address: 7318  # 07318 per PDF
+    force_new_range: true
+    use_write_multiple: true
+
+  # ITC1 Regulator - Hysteresis - Holding Register 07319 per PDF
+  # val_d2_fp100 format - multiply by 0.01
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Regulator Hysteresis"
+    id: itc1_regulator_hysteresis
+    min_value: 0.0
+    max_value: 10.0
+    step: 0.01
+    address: 7319  # 07319 per PDF
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
+
+binary_sensor:
+#########################
+#### ITC1 ERROR/WARNING SENSORS ####
+#########################
+  # ITC1 Aggregated warning - Discrete Input 07301 per PDF
+  # Channel pattern: 00101 -> 101, so 07301 -> 7301
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Aggregated Warning"
+    id: itc1_aggregated_warning
+    device_class: problem
+    register_type: read
+    address: 7301  # 07301 per PDF (following channel pattern: 00101->101, so 07301->7301)
+    bitmask: 1
+
+  # ITC1 Aggregated error - Discrete Input 07302 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Aggregated Error"
+    id: itc1_aggregated_error
+    device_class: problem
+    register_type: read
+    address: 7302  # 07302 per PDF
+    bitmask: 1
+
+  # ITC1 Error - Inlet Sensor Failure - Discrete Input 07303 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Inlet Sensor Failure"
+    id: itc1_inlet_sensor_failure
+    device_class: problem
+    register_type: read
+    address: 7303  # 07303 per PDF
+    bitmask: 1
+
+  # ITC1 Error - Servo Failure - Discrete Input 07304 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Servo Failure"
+    id: itc1_servo_failure
+    device_class: problem
+    register_type: read
+    address: 7304  # 07304 per PDF
+    bitmask: 1
+
+  # ITC1 Error - Return Sensor Failure - Discrete Input 07305 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Return Sensor Failure"
+    id: itc1_return_sensor_failure
+    device_class: problem
+    register_type: read
+    address: 7305  # 07305 per PDF
+    bitmask: 1
+
+  # ITC1 Error - Outdoor Sensor Failure - Discrete Input 07306 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Outdoor Sensor Failure"
+    id: itc1_outdoor_sensor_failure
+    device_class: problem
+    register_type: read
+    address: 7306  # 07306 per PDF
+    bitmask: 1
+
+  # ITC1 Error - High temp cut-off activated - Discrete Input 07307 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - High Temp Cut-off"
+    id: itc1_high_temp_cutoff
+    device_class: problem
+    register_type: read
+    address: 7307  # 07307 per PDF
+    bitmask: 1
+
+  # ITC1 Error - Frost protection activated - Discrete Input 07308 per PDF
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Frost Protection"
+    id: itc1_frost_protection
+    device_class: problem
+    register_type: read
+    address: 7308  # 07308 per PDF
+    bitmask: 1
 
 
 
