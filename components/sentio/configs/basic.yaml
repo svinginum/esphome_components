@@ -48,8 +48,8 @@ sensor:
   # Measured inlet temperature - Input Register 07305
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Flow Temperature"
-    id: sentio_t2_flow_temp
+    name: "Sentio ITC Inlet"
+    id: sentio_itc_inlet
     unit_of_measurement: "°C"
     accuracy_decimals: 2
     device_class: temperature
