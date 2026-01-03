@@ -46,23 +46,9 @@ select:
       "ON" : 2
 
 #########################
-#### SYSTEM TEMPERATURE SENSORS (T1-T3) ####
+#### SYSTEM TEMPERATURE SENSORS (T2-T3) ####
 #########################
 sensor:
-
-  # T1 - Main supplier temperature
-  # Input Register 07308 - Main supplier temperature
-  #- platform: modbus_controller
-  #  modbus_controller_id: sentio_modbus_controller
-  # name: "Sentio T1 Wired Output Temperature"
-  #  id: sentio_t1_wired_output_temp
-  #  unit_of_measurement: °C
-  #  accuracy_decimals: 1
-  #  device_class: temperature
-  #  register_type: read
-  #  address: 7308
-  #  filters:
-  #    - multiply: 0.01
 
   # T2 - Measured inlet temperature (Flow temperature for heating circuit 1)
   # Input Register 07305 - Measured temperature of the inlet heating/cooling water
@@ -74,7 +60,8 @@ sensor:
     accuracy_decimals: 1
     device_class: temperature
     register_type: read
-    address: 7705
+    address: 7305
+    force_new_range: true
     filters:
       - multiply: 0.01
 
@@ -89,6 +76,7 @@ sensor:
     device_class: temperature
     register_type: read
     address: 7307
+    force_new_range: true
     filters:
       - multiply: 0.01
 
@@ -104,6 +92,7 @@ sensor:
     device_class: temperature
     register_type: read
     address: 7306
+    force_new_range: true
     filters:
       - multiply: 0.01
 
