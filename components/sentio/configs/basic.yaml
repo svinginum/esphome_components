@@ -36,20 +36,20 @@ sensor:
 #### SYSTEM TEMPERATURE SENSORS (T2-T3) ####
 #########################
   # Pump State - Input Register 07304
-  - platform: modbus_controller
-    modbus_controller_id: sentio_modbus_controller
-    name: "Sentio Pump State"
-    id: sentio_pump_state
-    register_type: read
-    address: 0x1C88
-    value_type: U_WORD   # Must specify this
+  #- platform: modbus_controller
+    #modbus_controller_id: sentio_modbus_controller
+    #name: "Sentio Pump State"
+    #id: sentio_pump_state
+    #register_type: read
+    #address: 0x1C88
+    #value_type: U_WORD   # Must specify this
     # No filters needed - returns 1=IDLE, 2=ON
 
   # Measured inlet temperature - Input Register 07305
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
-    name: "Sentio ITC Inlet"
-    id: sentio_itc_inlet
+    name: "Sentio T2 - ITC Inlet"
+    id: sentio_t2_itc_inlet
     unit_of_measurement: "°C"
     accuracy_decimals: 2
     device_class: temperature
