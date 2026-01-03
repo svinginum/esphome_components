@@ -1,6 +1,7 @@
 external_components:
   - source: github://svinginum/esphome_components
     refresh: 0s  
+sentio:
 
 select:
 
