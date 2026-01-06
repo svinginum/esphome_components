@@ -66,6 +66,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     register_type: read
+    value_type: S_WORD
     address: 3301
     filters:
       - multiply: 0.01
@@ -78,6 +79,7 @@ sensor:
     accuracy_decimals: 2
     device_class: temperature
     register_type: read
+    value_type: S_WORD
     address: 3302
     filters:
       - multiply: 0.01
