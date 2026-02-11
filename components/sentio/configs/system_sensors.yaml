@@ -98,6 +98,66 @@ sensor:
     filters:
       - multiply: 0.01
 
+#########################
+#### ITC2 (HCC2) - same as HCC1, 078xx -> 74xx ####
+#########################
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Pump State"
+    id: sentio_itc2_pump_state
+    register_type: read
+    address: 7404
+    value_type: U_WORD
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - T2 Inlet Temperature"
+    id: sentio_itc2_t2_inlet
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    register_type: read
+    address: 7405
+    filters:
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Desired Flow Temperature"
+    id: sentio_itc2_desired_inlet_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    register_type: read
+    address: 7406
+    filters:
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - T3 Return Temperature"
+    id: sentio_itc2_return_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    state_class: measurement
+    register_type: read
+    address: 7407
+    filters:
+      - multiply: 0.01
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Supplier Required Temperature"
+    id: sentio_itc2_main_supplier_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    device_class: temperature
+    register_type: read
+    address: 7408
+    filters:
+      - multiply: 0.01
+
 
 #########################
 #### ITC1 CONFIGURATION (Holding Registers - R/W) ####
@@ -143,6 +203,44 @@ number:
     force_new_range: true
     use_write_multiple: true
     multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
+
+#########################
+#### ITC2 CONFIGURATION (Holding Registers - R/W) - 078xx -> 74xx ####
+#########################
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Regulator P Value"
+    id: itc2_regulator_p_value
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.1
+    address: 7417
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 10
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Regulator I Value"
+    id: itc2_regulator_i_value
+    min_value: 0
+    max_value: 65535
+    step: 1
+    address: 7418
+    force_new_range: true
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Regulator Hysteresis"
+    id: itc2_regulator_hysteresis
+    min_value: 0.0
+    max_value: 10.0
+    step: 0.01
+    address: 7419
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 100
 
 binary_sensor:
 #########################
@@ -227,6 +325,81 @@ binary_sensor:
     device_class: problem
     register_type: read
     address: 7308  # 07308 per PDF
+    bitmask: 1
+
+#########################
+#### ITC2 ERROR/WARNING SENSORS - 078xx -> 74xx ####
+#########################
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Aggregated Warning"
+    id: itc2_aggregated_warning
+    device_class: problem
+    register_type: read
+    address: 7401
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Aggregated Error"
+    id: itc2_aggregated_error
+    device_class: problem
+    register_type: read
+    address: 7402
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Inlet Sensor Failure"
+    id: itc2_inlet_sensor_failure
+    device_class: problem
+    register_type: read
+    address: 7403
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Servo Failure"
+    id: itc2_servo_failure
+    device_class: problem
+    register_type: read
+    address: 7404
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Return Sensor Failure"
+    id: itc2_return_sensor_failure
+    device_class: problem
+    register_type: read
+    address: 7405
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Outdoor Sensor Failure"
+    id: itc2_outdoor_sensor_failure
+    device_class: problem
+    register_type: read
+    address: 7406
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - High Temp Cut-off"
+    id: itc2_high_temp_cutoff
+    device_class: problem
+    register_type: read
+    address: 7407
+    bitmask: 1
+
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Frost Protection"
+    id: itc2_frost_protection
+    device_class: problem
+    register_type: read
+    address: 7408
     bitmask: 1
 
   #Outdoor Zones
