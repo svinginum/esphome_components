@@ -35,7 +35,30 @@ sensor:
     address: 1304
     filters:
       - multiply: 0.01
-      
+    
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_13} floor temperature"
+    id: floor_temperature_channel_13
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    device_class: temperature
+    register_type: read
+    address: 1305
+    filters:
+      - multiply: 0.01
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_13} desired temperature"
+    id: desired_temperature_channel_13
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    device_class: temperature
+    register_type: read
+    address: 1301
+    filters:
+      - multiply: 0.01
+       
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_13} luftfugtighed"

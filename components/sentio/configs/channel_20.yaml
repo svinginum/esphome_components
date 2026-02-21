@@ -35,6 +35,29 @@ sensor:
     address: 2004
     filters:
       - multiply: 0.01
+     
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} floor temperature"
+    id: floor_temperature_channel_20
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    device_class: temperature
+    register_type: read
+    address: 2005
+    filters:
+      - multiply: 0.01
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "${channel_20} desired temperature"
+    id: desired_temperature_channel_20
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    device_class: temperature
+    register_type: read
+    address: 2001
+    filters:
+      - multiply: 0.01
       
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
