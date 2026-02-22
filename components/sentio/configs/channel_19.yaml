@@ -35,7 +35,8 @@ sensor:
     address: 1904
     filters:
       - multiply: 0.01
-    
+      - round: 1
+
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_19} floor temperature"
@@ -47,6 +48,7 @@ sensor:
     address: 1905
     filters:
       - multiply: 0.01
+      - round: 1
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_19} desired temperature"
@@ -58,7 +60,7 @@ sensor:
     address: 1901
     filters:
       - multiply: 0.01
-
+      - round: 1
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_19} luftfugtighed"
@@ -69,7 +71,8 @@ sensor:
     register_type: read
     address: 1906
     filters:
-      - multiply: 0.01 
+      - multiply: 0.01
+      - round: 1
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
@@ -81,8 +84,9 @@ sensor:
     register_type: read
     address: 1907
     filters:
-      - multiply: 0.01  
-      
+      - multiply: 0.01
+      - round: 1
+
 #########################
 ### SETPOINT REGISTER  ##
 #########################

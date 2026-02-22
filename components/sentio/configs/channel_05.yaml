@@ -35,7 +35,8 @@ sensor:
     address: 504
     filters:
       - multiply: 0.01
- 
+      - round: 1
+
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_5} floor temperature"
@@ -47,6 +48,7 @@ sensor:
     address: 505
     filters:
       - multiply: 0.01
+      - round: 1
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_5} desired temperature"
@@ -58,7 +60,7 @@ sensor:
     address: 501
     filters:
       - multiply: 0.01
-          
+      - round: 1
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_5} luftfugtighed"
@@ -69,7 +71,8 @@ sensor:
     register_type: read
     address: 506
     filters:
-      - multiply: 0.01 
+      - multiply: 0.01
+      - round: 1
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
@@ -81,8 +84,9 @@ sensor:
     register_type: read
     address: 507
     filters:
-      - multiply: 0.01  
-      
+      - multiply: 0.01
+      - round: 1
+
 #########################
 ### SETPOINT REGISTER  ##
 #########################
