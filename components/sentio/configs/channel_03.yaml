@@ -36,6 +36,10 @@ sensor:
     filters:
       - multiply: 0.01
       - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
           return roundf(x * 10.0f) / 10.0f;
 
   - platform: modbus_controller
@@ -50,6 +54,10 @@ sensor:
     filters:
       - multiply: 0.01
       - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
           return roundf(x * 10.0f) / 10.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
@@ -63,6 +71,10 @@ sensor:
     filters:
       - multiply: 0.01
       - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
           return roundf(x * 10.0f) / 10.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
@@ -76,6 +88,10 @@ sensor:
     filters:
       - multiply: 0.01
       - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
           return roundf(x * 10.0f) / 10.0f;
 
   - platform: modbus_controller
@@ -90,6 +106,10 @@ sensor:
     filters:
       - multiply: 0.01
       - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
           return roundf(x * 10.0f) / 10.0f;
 
 #########################

@@ -26,7 +26,12 @@ sensor:
     address: 7305  # 07705 per PDF (following channel pattern: 00104->104, so 07705->7705)
     filters:
       - multiply: 0.01  # val_d2_fp100 format
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
 
   # Desired inlet temperature - Input Register 07706 (HCC1) per PDF
   # Channel pattern: 00104 -> 104, so 07706 -> 7706
@@ -41,7 +46,12 @@ sensor:
     address: 7306  # 07706 per PDF (following channel pattern: 00104->104, so 07706->7706)
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+         // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
 
   # Measured return temperature - Input Register 07707 (HCC1) per PDF
 
@@ -58,7 +68,12 @@ sensor:
     address: 7307
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+         // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
 
   #Outdoor Zone
   - platform: modbus_controller
@@ -73,7 +88,12 @@ sensor:
     address: 3301
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "Outdoor Temperature Filtered"
@@ -86,7 +106,12 @@ sensor:
     address: 3302
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
   # Main supplier temperature - Input Register 07708 (HCC1) per PDF
   # Channel pattern: 00104 -> 104, so 07708 -> 7708
   - platform: modbus_controller
@@ -100,7 +125,12 @@ sensor:
     address: 7308  # 07708 per PDF (following channel pattern)
     filters:
       - multiply: 0.01
-      - round: 1  
+      - lambda: |-
+         // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
 #########################
 #### ITC2 (HCC2) - same as HCC1, 078xx -> 74xx ####
 #########################
@@ -123,7 +153,12 @@ sensor:
     address: 7405
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "ITC2 - Desired Flow Temperature"
@@ -135,7 +170,12 @@ sensor:
     address: 7406
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "ITC2 - T3 Return Temperature"
@@ -148,7 +188,12 @@ sensor:
     address: 7407
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "ITC2 - Supplier Required Temperature"
@@ -160,7 +205,12 @@ sensor:
     address: 7408
     filters:
       - multiply: 0.01
-      - round: 1
+      - lambda: |-
+          // Reject impossible values (like 327.67 when sensor fails)
+          if (x > 100 || x < -40) {
+            return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
 
 #########################
 #### ITC1 CONFIGURATION (Holding Registers - R/W) ####
