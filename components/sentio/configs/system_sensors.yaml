@@ -257,6 +257,50 @@ number:
     use_write_multiple: true
     multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
 
+  # ITC1 Heat curve - min inlet - Holding Register 07323 per PDF
+  # val_d2_fp100 format - multiply by 0.01
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Heat Curve Min Inlet"
+    id: itc1_heat_curve_min_inlet
+    unit_of_measurement: "°C"
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.01
+    address: 7323  # 07323 per PDF
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
+
+  # ITC1 Heat curve - max inlet - Holding Register 07324 per PDF
+  # val_d2_fp100 format - multiply by 0.01
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Heat Curve Max Inlet"
+    id: itc1_heat_curve_max_inlet
+    unit_of_measurement: "°C"
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.01
+    address: 7324  # 07324 per PDF
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
+
+  # ITC1 Heat curve - gain - Holding Register 07325 per PDF
+  # val_d2_fp10 format - multiply by 0.1
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Heat Curve Gain"
+    id: itc1_heat_curve_gain
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.1
+    address: 7325  # 07325 per PDF
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 10  # val_d2_fp10: multiply by 10 when writing, divide by 10 when reading
+
 #########################
 #### ITC2 CONFIGURATION (Holding Registers - R/W) - 078xx -> 74xx ####
 #########################
@@ -294,6 +338,47 @@ number:
     force_new_range: true
     use_write_multiple: true
     multiply: 100
+
+  # ITC2 Heat curve - min inlet - Holding Register 07423 (07823 -> 74xx)
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Heat Curve Min Inlet"
+    id: itc2_heat_curve_min_inlet
+    unit_of_measurement: "°C"
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.01
+    address: 7423
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 100
+
+  # ITC2 Heat curve - max inlet - Holding Register 07424
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Heat Curve Max Inlet"
+    id: itc2_heat_curve_max_inlet
+    unit_of_measurement: "°C"
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.01
+    address: 7424
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 100
+
+  # ITC2 Heat curve - gain - Holding Register 07425
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Heat Curve Gain"
+    id: itc2_heat_curve_gain
+    min_value: 0.0
+    max_value: 100.0
+    step: 0.1
+    address: 7425
+    force_new_range: true
+    use_write_multiple: true
+    multiply: 10
 
 binary_sensor:
 #########################
