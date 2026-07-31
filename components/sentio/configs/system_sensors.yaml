@@ -131,6 +131,26 @@ sensor:
             return NAN;   // Makes Home Assistant show "unavailable"
           }
           return roundf(x * 10.0f) / 10.0f;
+
+  # Servo position request - Input Register 07309 per PDF
+  # val_d2_fp100 format - multiply by 0.01
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC1 - Servo Position Request"
+    id: itc1_servo_position_request
+    unit_of_measurement: "%"
+    accuracy_decimals: 2
+    state_class: measurement
+    register_type: read
+    address: 7309  # 07309 per PDF
+    filters:
+      - multiply: 0.01  # val_d2_fp100 format
+      - lambda: |-
+          if (x > 100 || x < 0) {
+            return NAN;
+          }
+          return roundf(x * 10.0f) / 10.0f;
+
 #########################
 #### ITC2 (HCC2) - same as HCC1, 078xx -> 74xx ####
 #########################
@@ -209,6 +229,24 @@ sensor:
           // Reject impossible values (like 327.67 when sensor fails)
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
+          }
+          return roundf(x * 10.0f) / 10.0f;
+
+  # Servo position request - Input Register 07409 (07809 -> 74xx)
+  - platform: modbus_controller
+    modbus_controller_id: sentio_modbus_controller
+    name: "ITC2 - Servo Position Request"
+    id: itc2_servo_position_request
+    unit_of_measurement: "%"
+    accuracy_decimals: 2
+    state_class: measurement
+    register_type: read
+    address: 7409
+    filters:
+      - multiply: 0.01  # val_d2_fp100 format
+      - lambda: |-
+          if (x > 100 || x < 0) {
+            return NAN;
           }
           return roundf(x * 10.0f) / 10.0f;
 
