@@ -4,7 +4,7 @@ select:
     name: "${channel_13} termostat lås"
     id: thermostat_lock_channel_13
     address: 1320
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     value_type: U_WORD
     optionsmap:
@@ -29,7 +29,7 @@ sensor:
     name: "${channel_13} temperatur"
     id: temperatur_channel_13
     unit_of_measurement: °C
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: temperature
     register_type: read
     address: 1304
@@ -40,14 +40,14 @@ sensor:
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
           }
-          return roundf(x * 10.0f) / 10.0f;
+          return roundf(x * 100.0f) / 100.0f;
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_13} floor temperature"
     id: floor_temperature_channel_13
     unit_of_measurement: °C
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: temperature
     register_type: read
     address: 1305
@@ -58,7 +58,7 @@ sensor:
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
           }
-          return roundf(x * 10.0f) / 10.0f;
+          return roundf(x * 100.0f) / 100.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_13} desired temperature"
@@ -81,7 +81,7 @@ sensor:
     name: "${channel_13} luftfugtighed"
     id: luftfugtighed_channel_13
     unit_of_measurement: '%'
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: humidity
     register_type: read
     address: 1306
@@ -92,7 +92,7 @@ sensor:
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
           }
-          return roundf(x * 10.0f) / 10.0f;
+          return roundf(x * 100.0f) / 100.0f;
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
@@ -125,7 +125,7 @@ number:
     max_value: 30.0
     step: 0.5
     address: 1319
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true 
     multiply: 100  
 
@@ -137,7 +137,7 @@ number:
     max_value: 30.0
     step: 0.5
     address: 1322
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true 
     multiply: 100
 
