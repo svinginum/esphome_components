@@ -4,7 +4,7 @@ select:
     name: "${channel_1} termostat lås"
     id: thermostat_lock_channel_1
     address: 120
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     value_type: U_WORD
     optionsmap:
@@ -126,7 +126,7 @@ number:
     max_value: 30.0
     step: 0.5
     address: 119
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true 
     multiply: 100  
 
@@ -138,7 +138,7 @@ number:
     max_value: 30.0
     step: 0.5
     address: 122
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true 
     multiply: 100
 
