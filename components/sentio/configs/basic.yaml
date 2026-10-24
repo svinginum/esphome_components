@@ -10,7 +10,7 @@ select:
     name: "Set modbus mode"
     id: sentio_set_modbus_mode
     address: 0x00005
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     value_type: U_WORD
     optionsmap:
@@ -24,7 +24,7 @@ select:
     name: "Sentio Vacation Mode"
     id: sentio_vacation_mode
     address: 27
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     value_type: U_WORD
     optionsmap:
@@ -37,7 +37,7 @@ select:
     name: "ITC1 - Heat Curve Type"
     id: itc1_heat_curve_type
     address: 7320  # 07320 per PDF (following channel pattern)
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     value_type: U_WORD
     optionsmap:
