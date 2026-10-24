@@ -264,7 +264,7 @@ number:
     max_value: 100.0
     step: 0.1
     address: 7317  # 07317 per PDF (following channel pattern)
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 10  # val_d2_fp10: multiply by 10 when writing, divide by 10 when reading
 
@@ -278,7 +278,7 @@ number:
     max_value: 65535
     step: 1
     address: 7318  # 07318 per PDF
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
 
   # ITC1 Regulator - Hysteresis - Holding Register 07319 per PDF
@@ -291,7 +291,7 @@ number:
     max_value: 10.0
     step: 0.01
     address: 7319  # 07319 per PDF
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
 
@@ -306,7 +306,7 @@ number:
     max_value: 100.0
     step: 0.01
     address: 7323  # 07323 per PDF
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
 
@@ -321,7 +321,7 @@ number:
     max_value: 100.0
     step: 0.01
     address: 7324  # 07324 per PDF
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 100  # val_d2_fp100: multiply by 100 when writing, divide by 100 when reading
 
@@ -335,7 +335,7 @@ number:
     max_value: 100.0
     step: 0.1
     address: 7325  # 07325 per PDF
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 10  # val_d2_fp10: multiply by 10 when writing, divide by 10 when reading
 
@@ -350,7 +350,7 @@ number:
     max_value: 100.0
     step: 0.1
     address: 7417
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 10
 
@@ -362,7 +362,7 @@ number:
     max_value: 65535
     step: 1
     address: 7418
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
 
   - platform: modbus_controller
@@ -373,7 +373,7 @@ number:
     max_value: 10.0
     step: 0.01
     address: 7419
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 100
 
@@ -387,7 +387,7 @@ number:
     max_value: 100.0
     step: 0.01
     address: 7423
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 100
 
@@ -401,7 +401,7 @@ number:
     max_value: 100.0
     step: 0.01
     address: 7424
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 100
 
@@ -414,7 +414,7 @@ number:
     max_value: 100.0
     step: 0.1
     address: 7425
-    force_new_range: true
+    reuse_previous_range: false
     use_write_multiple: true
     multiply: 10
 
