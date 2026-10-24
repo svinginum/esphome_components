@@ -29,7 +29,7 @@ sensor:
     name: "${channel_1} temperatur"
     id: temperatur_channel_1
     unit_of_measurement: °C
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: temperature
     register_type: read
     address: 104
