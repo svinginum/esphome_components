@@ -29,7 +29,7 @@ sensor:
     name: "${channel_5} temperatur"
     id: temperatur_channel_5
     unit_of_measurement: °C
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: temperature
     register_type: read
     address: 504
@@ -40,14 +40,14 @@ sensor:
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
           }
-          return roundf(x * 10.0f) / 10.0f;
+          return roundf(x * 100.0f) / 100.0f;
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_5} floor temperature"
     id: floor_temperature_channel_5
     unit_of_measurement: °C
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: temperature
     register_type: read
     address: 505
@@ -58,7 +58,7 @@ sensor:
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
           }
-          return roundf(x * 10.0f) / 10.0f;
+          return roundf(x * 100.0f) / 100.0f;
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
     name: "${channel_5} desired temperature"
@@ -81,7 +81,7 @@ sensor:
     name: "${channel_5} luftfugtighed"
     id: luftfugtighed_channel_5
     unit_of_measurement: '%'
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     device_class: humidity
     register_type: read
     address: 506
@@ -92,7 +92,7 @@ sensor:
           if (x > 100 || x < -40) {
             return NAN;   // Makes Home Assistant show "unavailable"
           }
-          return roundf(x * 10.0f) / 10.0f;
+          return roundf(x * 100.0f) / 100.0f;
 
   - platform: modbus_controller
     modbus_controller_id: sentio_modbus_controller
